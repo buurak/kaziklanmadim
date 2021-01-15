@@ -15,13 +15,18 @@
         v-model="searchVariable"
       />
       <br />
-      <button class="btn btn-primary" type="submit">Search</button>
+      <button @click="search" class="btn btn-primary" type="submit">
+        Search
+      </button>
     </div>
 
     <br />
 
-    <div v-for="(data, index) in fakeData" :key="index">
-      {{ index }} {{ data }} TL <br />
+    <div v-for="(data, index) in datas" :key="index">
+      {{ index }}
+      <br />
+      {{ data }} TL
+      <br />
       <br />
       <hr />
     </div>
@@ -37,21 +42,18 @@ export default {
   data() {
     return {
       searchVariable: "",
-
-      fakeData: {
-        "Cicibebe 100 gr": "Migros17",
-        "Cicibebe 200 gr": "Migros25",
-      },
+      datas: {},
     };
   },
 
   methods: {
     search() {
-      let url = "https://example.com/" + this.searchVariable;
+      this.datas = {};
+      let url = "http://localhost:8000/" + this.searchVariable;
       axios
         .get(url)
         .then((response) => {
-          this.result = response.data;
+          this.datas = response.data;
         })
         .catch((e) => {
           this.errors.push(e);
